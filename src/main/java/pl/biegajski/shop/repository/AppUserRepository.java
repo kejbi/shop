@@ -7,6 +7,6 @@ import pl.biegajski.shop.model.AppUser;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<AppUser, Long> {
+public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findAppUserByUsername(String username);
 }

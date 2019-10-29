@@ -24,17 +24,24 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles;
+    //atm this field is responsible for role representation, because it's simpler
+    @Column(nullable = false)
+    private String role;
+
+    //in the future this will be used for roles representation
+//    @ManyToMany
+//    @JoinTable(name = "users_roles",
+//        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+//        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+//    private List<Role> roles;
 
     public AppUser(AppUser user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.roles = user.getRoles();
+        this.role = user.getRole();
     }
+
+
 
 }

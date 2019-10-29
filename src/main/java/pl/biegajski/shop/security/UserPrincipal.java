@@ -6,7 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.biegajski.shop.model.AppUser;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserPrincipal extends AppUser implements UserDetails {
@@ -17,7 +19,10 @@ public class UserPrincipal extends AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return super.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(super.getRole());
+        List<SimpleGrantedAuthority> roles = new ArrayList<>();
+        roles.add(authority);
+        return roles;
     }
 
     @Override
