@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AppUserServiceTest {
+class AppUserServiceTest {
 
     @Mock
     private AppUserRepository repository;
@@ -34,8 +34,11 @@ public class AppUserServiceTest {
         String name = "test1";
         String password = "password";
         String role = "admin";
+
         when(repository.save(any(AppUser.class))).then(returnsFirstArg());
+
         AppUser user = appUserService.addUser(name, password, role);
+
         assertThat(user.getPassword(), not(password));
     }
 
