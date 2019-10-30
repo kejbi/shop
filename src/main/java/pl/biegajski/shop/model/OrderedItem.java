@@ -5,29 +5,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "items")
+@Table(name = "ordered_item")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Item {
+public class OrderedItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    private Order order;
+
+    @ManyToOne
+    private Item item;
 
     @Column(nullable = false)
-    private float price;
-
-    @OneToMany(
-            mappedBy = "item",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<OrderedItem> ordered;
+    private int count;
 }

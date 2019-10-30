@@ -8,26 +8,27 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "items")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Item {
+public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column
+    private boolean finished;
 
-    @Column(nullable = false)
+    @Column
     private float price;
 
     @OneToMany(
-            mappedBy = "item",
+            mappedBy = "order",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<OrderedItem> ordered;
+    private List<OrderedItem> items;
 }

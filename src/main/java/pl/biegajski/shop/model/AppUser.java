@@ -1,5 +1,6 @@
 package pl.biegajski.shop.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,6 +30,8 @@ public class AppUser {
     @Column(nullable = false)
     private String role;
 
+    @Column
+    private float account;
     //in the future this will be used for roles representation
 //    @ManyToMany
 //    @JoinTable(name = "users_roles",
@@ -42,6 +46,9 @@ public class AppUser {
         this.role = user.getRole();
     }
 
-
+    public float chargeAccount(float amount) {
+        this.account += amount;
+        return this.account;
+    }
 
 }
