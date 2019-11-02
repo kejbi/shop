@@ -31,4 +31,8 @@ public class Order {
             orphanRemoval = true
     )
     private List<OrderedItem> items;
+
+    @ManyToOne
+    @JoinColumn
+    private AppUser user;
 }

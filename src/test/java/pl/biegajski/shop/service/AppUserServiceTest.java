@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.biegajski.shop.model.AppUser;
 import pl.biegajski.shop.repository.AppUserRepository;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -48,7 +49,7 @@ class AppUserServiceTest {
 
     @Test
     void whenChargingAccount_thenAccountIsGreater() {
-        AppUser user = new AppUser(1,"test1","123","ROLE_USER",50.50f);
+        AppUser user = new AppUser(1,"test1","123","ROLE_USER",50.50f, Collections.emptyList());
         Optional<AppUser> optionalAppUser = Optional.of(user);
 
         when(repository.findAppUserByUsername(anyString())).thenReturn(optionalAppUser);

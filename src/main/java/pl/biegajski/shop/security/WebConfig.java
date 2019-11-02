@@ -38,5 +38,6 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .and()
                 .authorizeRequests().anyRequest().permitAll();
+        http.headers().frameOptions().disable();
     }
 }

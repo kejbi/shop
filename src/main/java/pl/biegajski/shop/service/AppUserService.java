@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.biegajski.shop.model.AppUser;
+import pl.biegajski.shop.model.Order;
 import pl.biegajski.shop.repository.AppUserRepository;
 
 @Service
@@ -15,12 +16,16 @@ public class AppUserService {
 
     private final PasswordEncoder passwordEncoder;
 
+
+
     public AppUser addUser(String name, String password, String role) {
         AppUser user = new AppUser();
         user.setUsername(name);
         user.setPassword(passwordEncoder.encode(password));
         user.setRole(role);
-
+        Order order = new Order();
+        user.getOrders().add(order);
+        order.setUser(user);
         return userRepository.save(user);
     }
 

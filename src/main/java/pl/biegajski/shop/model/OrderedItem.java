@@ -19,9 +19,11 @@ public class OrderedItem {
     private long id;
 
     @ManyToOne
+    @JoinColumn
     private Order order;
 
     @ManyToOne
+    @JoinColumn
     private Item item;
 
     @Column(nullable = false)

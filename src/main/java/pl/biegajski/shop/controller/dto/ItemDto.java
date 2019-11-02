@@ -5,6 +5,7 @@ import lombok.Setter;
 import pl.biegajski.shop.model.Item;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -14,6 +15,7 @@ public class ItemDto {
     private long id;
 
     @NotNull
+    @NotBlank
     private String name;
 
     @Min(value = 0)
