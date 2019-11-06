@@ -40,4 +40,8 @@ public class Order {
     public void addToOrder(OrderedItem item) {
         items.add(item);
     }
+
+    public void updatePrice(float amount) {
+        this.price += amount;
+    }
 }

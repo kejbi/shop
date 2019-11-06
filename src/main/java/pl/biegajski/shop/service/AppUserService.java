@@ -40,4 +40,23 @@ public class AppUserService {
         userRepository.save(user);
         return user.getAccount();
     }
+
+    public float debitAccount(float amount, long id) throws Exception {
+        AppUser user = userRepository.findAppUserById(id).orElseThrow(EntityNotFoundException::new);
+        if(user.getAccount() < amount) {
+            throw new Exception("Not enough money");
+        }
+        user.debitAccount(amount);
+
+        userRepository.save(user);
+        return user.getAccount();
+    }
+
+    public AppUser createNewOrder(long id) {
+        AppUser user = userRepository.findAppUserById(id).orElseThrow(EntityNotFoundException::new);
+        Order order = new Order();
+        user.getOrders().add(order);
+        order.setUser(user);
+        return userRepository.save(user);
+    }
 }

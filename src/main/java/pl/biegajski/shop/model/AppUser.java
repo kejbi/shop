@@ -59,4 +59,9 @@ public class AppUser {
         return this.account;
     }
 
+    public float debitAccount(float amount) {
+        this.account -= amount;
+        return this.account;
+    }
+
 }
