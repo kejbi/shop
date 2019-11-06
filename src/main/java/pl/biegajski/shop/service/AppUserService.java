@@ -8,6 +8,9 @@ import pl.biegajski.shop.model.AppUser;
 import pl.biegajski.shop.model.Order;
 import pl.biegajski.shop.repository.AppUserRepository;
 
+import javax.persistence.EntityNotFoundException;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
@@ -29,9 +32,8 @@ public class AppUserService {
         return userRepository.save(user);
     }
 
-    public float chargeAccount(float amount, String username) {
-        AppUser user = userRepository.findAppUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public float chargeAccount(float amount, long id) {
+        AppUser user = userRepository.findAppUserById(id).orElseThrow(EntityNotFoundException::new);
 
         user.chargeAccount(amount);
 

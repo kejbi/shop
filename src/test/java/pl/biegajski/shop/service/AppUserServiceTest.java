@@ -17,8 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,9 +51,9 @@ class AppUserServiceTest {
         AppUser user = new AppUser(1,"test1","123","ROLE_USER",50.50f, Collections.emptyList());
         Optional<AppUser> optionalAppUser = Optional.of(user);
 
-        when(repository.findAppUserByUsername(anyString())).thenReturn(optionalAppUser);
+        when(repository.findAppUserById(anyLong())).thenReturn(optionalAppUser);
 
-        float account = appUserService.chargeAccount(10f,"test1");
+        float account = appUserService.chargeAccount(10f,1);
 
         assertThat(account, is(60.50f));
     }

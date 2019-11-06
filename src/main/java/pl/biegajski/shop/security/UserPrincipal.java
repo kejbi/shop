@@ -26,6 +26,11 @@ public class UserPrincipal extends AppUser implements UserDetails {
     }
 
     @Override
+    public long getId(){
+        return super.getId();
+    }
+
+    @Override
     public String getPassword() {
         return super.getPassword();
     }

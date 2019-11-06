@@ -1,6 +1,7 @@
 package pl.biegajski.shop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,5 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         AppUser user = userRepository.findAppUserByUsername(s).orElseThrow(() -> new UsernameNotFoundException("Username "+ s + " not found"));
         return new UserPrincipal(user);
+    }
+
+    public static UserPrincipal getCurrentUser() {
+        return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

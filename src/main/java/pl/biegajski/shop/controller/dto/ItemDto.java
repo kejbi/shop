@@ -1,6 +1,7 @@
 package pl.biegajski.shop.controller.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.biegajski.shop.model.Item;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ItemDto {
 
     private long id;

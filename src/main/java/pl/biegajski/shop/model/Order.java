@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,9 +31,13 @@ public class Order {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<OrderedItem> items;
+    private List<OrderedItem> items = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "user_id")
     private AppUser user;
+
+    public void addToOrder(OrderedItem item) {
+        items.add(item);
+    }
 }

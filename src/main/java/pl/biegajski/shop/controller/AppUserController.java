@@ -11,6 +11,7 @@ import pl.biegajski.shop.controller.dto.RegisterDto;
 import pl.biegajski.shop.model.AppUser;
 import pl.biegajski.shop.security.UserPrincipal;
 import pl.biegajski.shop.service.AppUserService;
+import pl.biegajski.shop.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -40,7 +41,7 @@ public class AppUserController {
         if (amount <= 0) {
             throw new InvalidParameterException("Amount must be greater than zero!");
         }
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.chargeAccount(amount, ((UserPrincipal)user).getUsername());
+        UserPrincipal user = CustomUserDetailsService.getCurrentUser();
+        return appUserService.chargeAccount(amount, user.getId());
     }
 }
