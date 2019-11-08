@@ -19,7 +19,7 @@ public class UserPrincipal extends AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(super.getRole());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + super.getRole());
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
         roles.add(authority);
         return roles;

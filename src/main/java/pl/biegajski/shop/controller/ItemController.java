@@ -10,6 +10,7 @@ import pl.biegajski.shop.controller.dto.ItemDto;
 import pl.biegajski.shop.model.Item;
 import pl.biegajski.shop.service.ItemService;
 
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
@@ -20,6 +21,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    @PermitAll
     @PostMapping("/add")
     public ItemDto addItem(@Valid @RequestBody ItemDto item, BindingResult bindingResult) throws ValidationException{
         if (bindingResult.hasErrors()) {

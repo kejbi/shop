@@ -2,6 +2,7 @@ package pl.biegajski.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,8 @@ import pl.biegajski.shop.security.UserPrincipal;
 import pl.biegajski.shop.service.AppUserService;
 import pl.biegajski.shop.service.CustomUserDetailsService;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.security.InvalidParameterException;
@@ -24,6 +27,7 @@ public class AppUserController {
 
     private final AppUserService appUserService;
 
+    @PermitAll
     @PostMapping("/add")
     @ResponseBody
     public AppUserDto addAppUser(@Valid @RequestBody RegisterDto registerDto, BindingResult bindingResult) {
@@ -35,6 +39,7 @@ public class AppUserController {
         return new AppUserDto(user);
     }
 
+    @RolesAllowed({"ROLE_USER"})
     @PatchMapping("/charge")
     @ResponseBody
     public float chargeAccount(@RequestParam float amount) {
