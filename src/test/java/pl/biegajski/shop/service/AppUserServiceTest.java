@@ -10,12 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.biegajski.shop.model.AppUser;
 import pl.biegajski.shop.repository.AppUserRepository;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -28,13 +29,20 @@ class AppUserServiceTest {
 
     private AppUserService appUserService;
 
+    private Optional<AppUser> optionalTestUser;
+
     @BeforeEach
-    void initUserService() {
+    void setUp() {
         appUserService = new AppUserService(repository, new BCryptPasswordEncoder());
+        optionalTestUser = Optional.of(new AppUser(1,"test1","123","ROLE_USER",50.50f, new ArrayList<>()));
+    }
+
+    void mockFindUserById() {
+        when(repository.findAppUserById(anyLong())).thenReturn(optionalTestUser);
     }
 
     @Test
-    void addedUserHasEncodedPassword() {
+    void whenAddingUser_thenItHasEncodedPassword() {
         String name = "test1";
         String password = "password";
         String role = "admin";
@@ -48,13 +56,35 @@ class AppUserServiceTest {
 
     @Test
     void whenChargingAccount_thenAccountIsGreater() {
-        AppUser user = new AppUser(1,"test1","123","ROLE_USER",50.50f, Collections.emptyList());
-        Optional<AppUser> optionalAppUser = Optional.of(user);
-
-        when(repository.findAppUserById(anyLong())).thenReturn(optionalAppUser);
+        mockFindUserById();
 
         float account = appUserService.chargeAccount(10f,1);
 
         assertThat(account, is(60.50f));
+    }
+
+    @Test
+    void whenDebitingAccount_thenAccountIsLower() throws Exception {
+        mockFindUserById();
+
+        float account = appUserService.debitAccount(10.50f, 1);
+        assertThat(account, is(40f));
+    }
+
+    @Test
+    void whenDebitingAccountWithNotEnoughMoney_thenExceptionIsThrown() throws Exception {
+        mockFindUserById();
+
+        assertThrows(Exception.class, () -> appUserService.debitAccount(60f, 1));
+    }
+
+    @Test
+    void whenNewOrderIsCreated_thenItIsAdded() {
+        mockFindUserById();
+        when(repository.save(any(AppUser.class))).then(returnsFirstArg());
+
+        AppUser user = appUserService.createNewOrder(1L);
+        assertThat(user.getOrders().size(), is(1));
+
     }
 }

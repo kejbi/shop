@@ -1,10 +1,12 @@
 package pl.biegajski.shop.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,5 +32,5 @@ public class Item {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<OrderedItem> ordered;
+    private List<OrderedItem> ordered = new ArrayList<>();
 }

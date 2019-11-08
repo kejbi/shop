@@ -40,6 +40,7 @@ public class OrderService {
         Order order = orderRepository.findOrderByUserIdAndFinished(userId, false).orElseThrow(EntityNotFoundException::new);
         OrderedItem item = orderedItemRepository.findById(orderedItemId).orElseThrow(EntityNotFoundException::new);
 
+        order.getItems().remove(item);
         order.updatePrice(item.getItem().getPrice() * item.getCount() * -1);
 
         orderedItemRepository.deleteById(orderedItemId);
